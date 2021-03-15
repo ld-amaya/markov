@@ -32,15 +32,25 @@ class MarkovMachine {
       }
     }
     this.chain = wordChain;
-    console.log(this.chain)
   }
 
+  static choice(pick) {
+    return pick[Math.floor(Math.random() * pick.length)]
+  }
 
   /** return random text from chains */
 
   makeText(numWords = 100) {
-    // TODO
+    // select random key 
+    let keys = Array.from(this.chain.keys())
+    let key = MarkovMachine.choice(keys)
+    let words = [];
+    while (words.length < numWords && key !== null) {
+      words.push(key);
+      key = MarkovMachine.choice(this.chain.get(key))
+    }
+    return (words.join(' '));
   }
 }
 
-let test = new MarkovMachine('The quick brown fox jumps over the lazy dog')
+module.exports = { MarkovMachine };
